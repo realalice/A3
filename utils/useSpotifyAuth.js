@@ -35,6 +35,23 @@ const useSpotifyAuth = () => {
   );
 
   // TODO: Figure out how to set `token` properly!
+  const getSpotifyAuth = () => {
+    promptAsync();
+  };
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { access_token } = response.params;
+      if (access_token) {
+        setToken(access_token);
+        console.log("Spotify Access Token:", access_token);
+      } else {
+        console.warn("Access token not found in response:", response);
+      }
+    } else if (response?.type === "error") {
+      console.error("Authentication error:", response);
+    }
+  }, [response]);
 
   return { token, getSpotifyAuth: promptAsync };
 };
